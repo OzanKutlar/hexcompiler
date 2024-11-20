@@ -1,12 +1,17 @@
+import java.util.ArrayList;
+
 class hexCompiler{
 	
 	public static int maxLength = 34;
 
 	public static void main(String... Args){
-		// Hex me = new Hex("Mind's Reflection", "ur,ul,dl,dr", "");
-		// Hex me = new Hex("Archer's Distillation", "r,r,ur,l,dr,dr,l,ur", "");
-		Hex me = new Hex("Hermes' Gambit", "dr,l,ul,dl,dr,r", "");
-		System.out.println(me.fullSpell);
+		ArrayList<Hex> hexes = new ArrayList<>();
+		hexes.add(new Hex("Mind's Reflection", "ur,ul,dl,dr"));
+		hexes.add(new Hex("Archer's Distillation", "r,r,ur,l,dr,dr,l,ur"));
+		hexes.add(new Hex("Hermes' Gambit", "dr,l,ul,dl,dr,r"));
+		for(Hex h : hexes){
+			System.out.println(h.spellName + " : " + h.fullSpell);
+		}
 	}
 	
 	public static class Hex{
@@ -15,12 +20,13 @@ class hexCompiler{
 		String spellName;
 		String fullSpell;
 		
-		public Hex(String spellName, String spell, String middleToStart){
+		public Hex(String spellName, String spell){
 			this.spellName = spellName;
 			int[] offSetFromStart = calculateBoundingBox(spell);
-			String startOffset = "r,".repeat(hexBoundingBox[0] + 1);
+			String startOffset = "r,".repeat(1 - (hexBoundingBox[0] / 2));
 			String returnMoves = calculateReturnToStart(offSetFromStart);
-			returnMoves += ",r".repeat(hexBoundingBox[1] + 1);
+			// returnMoves += ",r".repeat(((hexBoundingBox[1] + 1) / 2) + 1);
+			returnMoves += ",r".repeat(((hexBoundingBox[1]) / 2) + 1);
 			fullSpell = startOffset + "c1," + spell + ",c0" + returnMoves;
 		}
 		
@@ -30,15 +36,6 @@ class hexCompiler{
 			int xOffset = offset[0];
 			int yOffset = offset[1];
 			String returnMoves = "";
-			if(yOffset != 0){
-				returnMoves += (yOffset > 0 ? "d" : "u") + (xOffset > 0 ? "l" : "r");
-				yOffset += (yOffset > 0 ? -1 : 1);
-				xOffset += (xOffset > 0 ? -1 : 1);
-			}
-			else{
-				returnMoves += (xOffset > 0 ? "l" : "r");
-				xOffset += (xOffset > 0 ? -2 : 2);
-			}
 			while(xOffset != 0 || yOffset != 0){
 				if(yOffset != 0){
 					returnMoves += "," + (yOffset > 0 ? "d" : "u") + (xOffset > 0 ? "l" : "r");
