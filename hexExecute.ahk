@@ -2,14 +2,13 @@ dist := 106
 delayTime := 20
 sqrt3 := 1.7320
 
-; InputBox, hexToExecute, % "Please input a compiled hex.", % "The Script will then wait for NumpadAdd to be pressed."
-; hexToExecute := "r,r,r,r,c1,dr,l,ul,dl,dr,r,c0,ur,ul,r,r"
-; spells := StrSplit(hexToExecute, " ")
-; StringSplit, spells, hexToExecute, " "
-; MsgBox, % spells " : " hexToExecute " : " StrSplit(hexToExecute)
 NumpadAdd::
 	Clipwait, 1
-	for i, hex in StrSplit(Clipboard, ",")
+	Loop, 9
+	{
+		left()
+	}
+	for i, hex in StrSplit(Trim(Clipboard), ",")
 	{
 		; MsgBox, % i " : " hex
 		switch hex
@@ -22,18 +21,20 @@ NumpadAdd::
 				up(0)
 			case "ur":
 				up(1)
-				
 			case "l":
 				left()
-
 			case "r":
 				right()
-
 			case "c0":
 				Click, up
-
 			case "c1":
 				Click, down
+			case "ps":
+				KeyWait, NumpadAdd, D
+				Loop, 9
+				{
+					left()
+				}
 
 			default:
 				MsgBox, % "Error on hex no " i " which is " hex
@@ -41,6 +42,29 @@ NumpadAdd::
 	}
 return
 
+Numpad6::
+	Click, down
+	right()
+	up(0)
+	left()
+	down(0)
+	down(1)
+	right()
+	up(1)
+	Click, up
+	right()
+	right()
+	up(1)
+	Click, down
+	down(1)
+	left()
+	up(0)
+	down(0)
+	down(1)
+	right()
+
+	Click, up
+return
 
 up(right){
 	global dist

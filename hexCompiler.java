@@ -1,24 +1,87 @@
-import java.util.ArrayList;
+import java.util.*;
 
 class hexCompiler{
 	
-	public static int maxLength = 34;
+	public static int maxLength = 12;
+	
+	public static Hex startRecord = new Hex("", "l,dl,dr,r");
+	public static Hex stopRecord = new Hex("", "r,dr,dl,l");
+	public static Hex combineLists = new Hex("", "ur,ur,l,dr,dr");
+	public static Hex load = new Hex("", "r,ul,l,dl,dr,r,ur");
+	public static Hex save = new Hex("", "r,dl,l,ul,ur,r,dr");
 
 	public static void main(String... Args){
-		ArrayList<Hex> hexes = new ArrayList<>();
-		hexes.add(new Hex("Mind's Reflection", "ur,ul,dl,dr"));
-		hexes.add(new Hex("Archer's Distillation", "r,r,ur,l,dr,dr,l,ur"));
-		hexes.add(new Hex("Hermes' Gambit", "dr,l,ul,dl,dr,r"));
-		for(Hex h : hexes){
-			System.out.println(h.spellName + " : " + h.fullSpell);
+		HashMap<String, Hex> hexes = new HashMap<>();
+		hexes.put("me",new Hex("Mind's Reflection", "ur,ul,dl,dr"));
+		hexes.put("eyePos",new Hex("Compass' Purification", "r,ul,dl"));
+		hexes.put("archer", new Hex("Archer's Distillation", "r,r,ur,l,dr,dr,l,ur"));
+		hexes.put("execute", new Hex("Hermes' Gambit", "dr,l,ul,dl,dr,r"));
+		hexes.put("execute", new Hex("", "ur,dr,l,ul,dl,dr,r"));
+		hexes.put("multiply", new Hex("", "dr,dr,ur,ul,dl,dl"));
+		hexes.put("getNumber10", new Hex("", "dr,ur,ul,dl,r,dr"));
+		hexes.put("giveElytra", new Hex("Altiora", "ul,dl,dl,r,r,ul,l,ul,r,r,r,dl,dr"));
+		hexes.put("meFlight", new Hex(hexes.get("me"), hexes.get("giveElytra")));
+		hexes.put("getStackSize", new Hex("", "ul,l,l,dr,dl,r,r,ur,l,ul,dl,dr,ur"));
+		hexes.put("addNElements", new Hex("", "dl,l,l,ur,ul,r,r,dr"));
+		hexes.put("convertAllToList", new Hex(hexes.get("getStackSize"), hexes.get("addNElements")));
+		hexes.put("getListLength", new Hex("", "ur,ur,ul,dl,dr,dr"));
+		hexes.put("getFromList", new Hex("", "ul,l,dr,dl,r,ur"));
+		hexes.put("addToList", new Hex("", "dl,l,ur,ul,r,dr"));
+		hexes.put("rechargeItem", new Hex("", "ul,l,dl,dr,r,ur,ur,l,ul,dl,l,dr,dl,r,dr,ur,r,ul"));
+		hexes.put("createArtifact", new Hex("", "r,r,r,ul,l,dl,dr,r,ur,r,ul,ul,l,l,dl,dl,dr,dr,r,r,ur,ur,ur,ul,l,ul,dl,ul,dl,l,dl,dr,dl,dr,r,dr,ur,dr,ur,r,ur,ul"));
+		hexes.put("levitate", new Hex("", "l,dl,dr,r,ur,ul,dl,dl,dl,r,r,ul,ul"));
+		hexes.put("weakness", new Hex("", "ul,l,dl,dr,r,ur,l,dl,dl,r,r,ul,ul"));
+		hexes.put("breakBlock", new Hex("", "r,ur,l,dl,dr,r,ur,ul"));
+		hexes.put("placeBlock", new Hex("", "dl,l,ul,ur,r,dr,l,ul"));
+		hexes.put("blink", new Hex("", "dl,r,r,ur,ul,l,l,dr,r"));
+		hexes.put("push", new Hex("", "dl,r,r,ur,ul,l,l,dr,r,r"));
+		hexes.put("explode", new Hex("", "r,ul,dl,dl,r,ul,ul,dl,r"));
+		hexes.put("normalPos", new Hex("", "ur,dr,l"));
+		hexes.put("direction", new Hex("", "ur,ur,l"));
+		hexes.put("myPosEye", new Hex(hexes.get("me"), hexes.get("eyePos")));
+		hexes.put("myPos", new Hex(hexes.get("me"), hexes.get("normalPos")));
+		hexes.put("canSave", new Hex("", "r,dl,l,ul,ur,r,dr,r"));
+		hexes.put("canLoad", new Hex("", "r,ul,l,dl,dr,r,ur,r"));
+		hexes.put("blockImLookingAt", new Hex(hexes.get("myPosEye"), hexes.get("me"), hexes.get("direction"), hexes.get("archer")));
+		hexes.put("startFlight", new Hex(hexes.get("me"), hexes.get("meFlight"), hexes.get("me"), hexes.get("direction") , hexes.get("getNumber10"), hexes.get("multiply"), hexes.get("push")));
+		
+		
+		
+		for(String h : hexes.keySet()){
+			System.out.println(h + " : " + hexes.get(h).fullSpell);
 		}
 	}
+	
 	
 	public static class Hex{
 		int[] hexBoundingBox;
 		int hexLength;
 		String spellName;
 		String fullSpell;
+		
+		public Hex(Hex... spells){
+			int totalLength = 0;
+			fullSpell = spells[0].fullSpell;
+			int totalStops = 0;
+			for(int i = 1; i < spells.length; i++){
+				Hex h = spells[i];
+				totalLength += h.hexLength + 2;
+				if(totalLength > hexCompiler.maxLength){
+					totalStops += 1;
+					totalLength = h.hexLength + 2;
+					fullSpell += "," + "dl,".repeat(3) + stopRecord.fullSpell + ",l".repeat(9) + ",dl,dl," + (totalStops != 1 ? combineLists.fullSpell + "," : "") + save.fullSpell + ",ps," + load.fullSpell + ",ur,ur," + startRecord.fullSpell;
+				}
+				fullSpell += "," + h.fullSpell;
+			}
+			if(totalStops != 0){
+				fullSpell = startRecord.fullSpell + "," + fullSpell + "," + "dl,".repeat(3) + stopRecord.fullSpell + ",l".repeat(9) + ",dl,dl," + combineLists.fullSpell + "," + save.fullSpell;
+			}
+		}
+		
+		// public Hex(Hex spellOne, Hex spellTwo){
+			// hexLength = spellOne.hexLength + spellTwo.hexLength + 1;
+			// fullSpell = spellOne.fullSpell + "," + spellTwo.fullSpell;
+		// }
 		
 		public Hex(String spellName, String spell){
 			this.spellName = spellName;
@@ -108,7 +171,7 @@ class hexCompiler{
 					hexBoundingBox[1] = startOffset[0];
 				}
 			}
-			hexLength = hexBoundingBox[1] - hexBoundingBox[0];
+			this.hexLength = hexBoundingBox[1] - hexBoundingBox[0];
 			return startOffset;
 		}
 	}
