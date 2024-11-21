@@ -2,13 +2,13 @@ import java.util.*;
 
 class hexCompiler{
 	
-	public static int maxLength = 12;
+	public static int maxLength = 18;
 	
-	public static Hex startRecord = new Hex("", "l,dl,dr,r");
-	public static Hex stopRecord = new Hex("", "r,dr,dl,l");
-	public static Hex combineLists = new Hex("", "ur,ur,l,dr,dr");
-	public static Hex load = new Hex("", "r,ul,l,dl,dr,r,ur");
-	public static Hex save = new Hex("", "r,dl,l,ul,ur,r,dr");
+	public static Hex startRecord = new Hex("Introspection", "l,dl,dr,r");
+	public static Hex stopRecord = new Hex("Retrospection", "r,dr,dl,l");
+	public static Hex combineLists = new Hex("Additive Distillation", "ur,ur,l,dr,dr");
+	public static Hex load = new Hex("Scribe's Reflection", "r,ul,l,dl,dr,r,ur");
+	public static Hex save = new Hex("Scribe's Gambit", "r,dl,l,ul,ur,r,dr");
 
 	public static void main(String... Args){
 		HashMap<String, Hex> hexes = new HashMap<>();
@@ -16,33 +16,36 @@ class hexCompiler{
 		hexes.put("eyePos",new Hex("Compass' Purification", "r,ul,dl"));
 		hexes.put("archer", new Hex("Archer's Distillation", "r,r,ur,l,dr,dr,l,ur"));
 		hexes.put("execute", new Hex("Hermes' Gambit", "dr,l,ul,dl,dr,r"));
-		hexes.put("execute", new Hex("", "ur,dr,l,ul,dl,dr,r"));
-		hexes.put("multiply", new Hex("", "dr,dr,ur,ul,dl,dl"));
-		hexes.put("getNumber10", new Hex("", "dr,ur,ul,dl,r,dr"));
+		hexes.put("multiply", new Hex("Multiplicative Dstl", "dr,dr,ur,ul,dl,dl"));
+		hexes.put("getNumber10", new Hex("Numerical Reflection 10", "dr,ur,ul,dl,r,dr"));
 		hexes.put("giveElytra", new Hex("Altiora", "ul,dl,dl,r,r,ul,l,ul,r,r,r,dl,dr"));
 		hexes.put("meFlight", new Hex(hexes.get("me"), hexes.get("giveElytra")));
-		hexes.put("getStackSize", new Hex("", "ul,l,l,dr,dl,r,r,ur,l,ul,dl,dr,ur"));
-		hexes.put("addNElements", new Hex("", "dl,l,l,ur,ul,r,r,dr"));
+		hexes.put("getStackSize", new Hex("Flock's Reflection", "ul,l,l,dr,dl,r,r,ur,l,ul,dl,dr,ur"));
+		hexes.put("addNElements", new Hex("Flock's Gambit", "dl,l,l,ur,ul,r,r,dr"));
 		hexes.put("convertAllToList", new Hex(hexes.get("getStackSize"), hexes.get("addNElements")));
-		hexes.put("getListLength", new Hex("", "ur,ur,ul,dl,dr,dr"));
-		hexes.put("getFromList", new Hex("", "ul,l,dr,dl,r,ur"));
-		hexes.put("addToList", new Hex("", "dl,l,ur,ul,r,dr"));
-		hexes.put("rechargeItem", new Hex("", "ul,l,dl,dr,r,ur,ur,l,ul,dl,l,dr,dl,r,dr,ur,r,ul"));
-		hexes.put("createArtifact", new Hex("", "r,r,r,ul,l,dl,dr,r,ur,r,ul,ul,l,l,dl,dl,dr,dr,r,r,ur,ur,ur,ul,l,ul,dl,ul,dl,l,dl,dr,dl,dr,r,dr,ur,dr,ur,r,ur,ul"));
-		hexes.put("levitate", new Hex("", "l,dl,dr,r,ur,ul,dl,dl,dl,r,r,ul,ul"));
-		hexes.put("weakness", new Hex("", "ul,l,dl,dr,r,ur,l,dl,dl,r,r,ul,ul"));
-		hexes.put("breakBlock", new Hex("", "r,ur,l,dl,dr,r,ur,ul"));
-		hexes.put("placeBlock", new Hex("", "dl,l,ul,ur,r,dr,l,ul"));
-		hexes.put("blink", new Hex("", "dl,r,r,ur,ul,l,l,dr,r"));
-		hexes.put("push", new Hex("", "dl,r,r,ur,ul,l,l,dr,r,r"));
-		hexes.put("explode", new Hex("", "r,ul,dl,dl,r,ul,ul,dl,r"));
-		hexes.put("normalPos", new Hex("", "ur,dr,l"));
-		hexes.put("direction", new Hex("", "ur,ur,l"));
+		hexes.put("getListLength", new Hex("Length Purification", "ur,ur,ul,dl,dr,dr"));
+		hexes.put("getTopOfList", new Hex("Derivation Distillation", "ul,l,dr,dl,r,ur"));
+		hexes.put("addToList", new Hex("Integration Distillation", "dl,l,ur,ul,r,dr"));
+		hexes.put("rechargeItem", new Hex("Recharge Item", "ul,l,dl,dr,r,ur,ur,l,ul,dl,l,dr,dl,r,dr,ur,r,ul"));
+		hexes.put("createArtifact", new Hex("Craft Artifact", "r,r,r,ul,l,dl,dr,r,ur,r,ul,ul,l,l,dl,dl,dr,dr,r,r,ur,ur,ur,ul,l,ul,dl,ul,dl,l,dl,dr,dl,dr,r,dr,ur,dr,ur,r,ur,ul"));
+		hexes.put("levitate", new Hex("Blue Sun's Nadir", "l,dl,dr,r,ur,ul,dl,dl,dl,r,r,ul,ul,r"));
+		hexes.put("weakness", new Hex("White Sun's Nadir", "ul,l,dl,dr,r,ur,l,dl,dl,r,r,ul,ul"));
+		hexes.put("breakBlock", new Hex("Break Block", "r,ur,l,dl,dr,r,ur,ul"));
+		hexes.put("placeBlock", new Hex("Place Block", "dl,l,ul,ur,r,dr,l,ul"));
+		hexes.put("placeWater", new Hex("Create Water", "dr,ur,ul,dl,dl,dr,ur,dr,ur,ul"));
+		hexes.put("removeWater", new Hex("Destroy Liquid", "dl,ul,ur,dr,dr,dl,ul,dl,ul,ur"));
+		hexes.put("duplicate", new Hex("Gemini Decomposition", "r,ul,dl,ul,dl,r"));
+		hexes.put("blink", new Hex("Blink", "dl,r,r,ur,ul,l,l,dr,r"));
+		hexes.put("push", new Hex("Impulse", "dl,r,r,ur,ul,l,l,dr,r,r"));
+		hexes.put("explode", new Hex("Explosion", "r,ul,dl,dl,r,ul,ul,dl,r"));
+		hexes.put("normalPos", new Hex("Compass' Purification II", "ur,dr,l"));
+		hexes.put("direction", new Hex("Alidade's Purification", "ur,ur,l"));
 		hexes.put("myPosEye", new Hex(hexes.get("me"), hexes.get("eyePos")));
 		hexes.put("myPos", new Hex(hexes.get("me"), hexes.get("normalPos")));
-		hexes.put("canSave", new Hex("", "r,dl,l,ul,ur,r,dr,r"));
-		hexes.put("canLoad", new Hex("", "r,ul,l,dl,dr,r,ur,r"));
+		hexes.put("canSave", new Hex("Assessor's Reflection", "r,dl,l,ul,ur,r,dr,r"));
+		hexes.put("canLoad", new Hex("Auditor's Reflection", "r,ul,l,dl,dr,r,ur,r"));
 		hexes.put("blockImLookingAt", new Hex(hexes.get("myPosEye"), hexes.get("me"), hexes.get("direction"), hexes.get("archer")));
+		hexes.put("meLevitate", new Hex(hexes.get("me"), hexes.get("getNumber10"), hexes.get("levitate")));
 		hexes.put("startFlight", new Hex(hexes.get("me"), hexes.get("meFlight"), hexes.get("me"), hexes.get("direction") , hexes.get("getNumber10"), hexes.get("multiply"), hexes.get("push")));
 		
 		
@@ -69,7 +72,7 @@ class hexCompiler{
 				if(totalLength > hexCompiler.maxLength){
 					totalStops += 1;
 					totalLength = h.hexLength + 2;
-					fullSpell += "," + "dl,".repeat(3) + stopRecord.fullSpell + ",l".repeat(9) + ",dl,dl," + (totalStops != 1 ? combineLists.fullSpell + "," : "") + save.fullSpell + ",ps," + load.fullSpell + ",ur,ur," + startRecord.fullSpell;
+					fullSpell += "," + "dl,".repeat(3) + stopRecord.fullSpell + ",l".repeat(9) + ",dl," + (totalStops != 1 ? "dl," + combineLists.fullSpell + "," : "") + save.fullSpell + ",ps," + load.fullSpell + ",ur,ur," + startRecord.fullSpell;
 				}
 				fullSpell += "," + h.fullSpell;
 			}
