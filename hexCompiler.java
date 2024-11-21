@@ -2,7 +2,7 @@ import java.util.*;
 
 class hexCompiler{
 	
-	public static int maxLength = 18;
+	public static int maxLength = 16;
 	
 	public static Hex startRecord = new Hex("Introspection", "l,dl,dr,r");
 	public static Hex stopRecord = new Hex("Retrospection", "r,dr,dl,l");
@@ -20,6 +20,8 @@ class hexCompiler{
 		utilHexes.put("execute", new Hex("Hermes' Gambit", "dr,l,ul,dl,dr,r"));
 		utilHexes.put("multiply", new Hex("Multiplicative Dstl", "dr,dr,ur,ul,dl,dl"));
 		utilHexes.put("getNumber10", new Hex("Numerical Reflection 10", "dr,ur,ul,dl,r,dr"));
+		utilHexes.put("getNumber6", new Hex("Numerical Reflection 6", "dr,ur,ul,dl,r,dr,l,l"));
+		utilHexes.put("getNumber1", new Hex("Numerical Reflection 1", "dr,ur,ul,dl,r,r"));
 		utilHexes.put("giveElytra", new Hex("Altiora", "ul,dl,dl,r,r,ul,l,ul,r,r,r,dl,dr"));
 		utilHexes.put("meFlight", new Hex(utilHexes.get("me"), utilHexes.get("giveElytra")));
 		utilHexes.put("getStackSize", new Hex("Flock's Reflection", "ul,l,l,dr,dl,r,r,ur,l,ul,dl,dr,ur"));
@@ -31,6 +33,7 @@ class hexCompiler{
 		utilHexes.put("rechargeItem", new Hex("Recharge Item", "ul,l,dl,dr,r,ur,ur,l,ul,dl,l,dr,dl,r,dr,ur,r,ul"));
 		utilHexes.put("createArtifact", new Hex("Craft Artifact", "r,r,r,ul,l,dl,dr,r,ur,r,ul,ul,l,l,dl,dl,dr,dr,r,r,ur,ur,ur,ul,l,ul,dl,ul,dl,l,dl,dr,dl,dr,r,dr,ur,dr,ur,r,ur,ul"));
 		utilHexes.put("levitate", new Hex("Blue Sun's Nadir", "l,dl,dr,r,ur,ul,dl,dl,dl,r,r,ul,ul,r"));
+		utilHexes.put("wither", new Hex("Black Sun's Nadir", "dl,dr,r,ur,ul,l,dr,dl,dl,r,r,ul,ul,ur"));
 		utilHexes.put("weakness", new Hex("White Sun's Nadir", "ul,l,dl,dr,r,ur,l,dl,dl,r,r,ul,ul"));
 		utilHexes.put("breakBlock", new Hex("Break Block", "r,ur,l,dl,dr,r,ur,ul"));
 		utilHexes.put("placeBlock", new Hex("Place Block", "dl,l,ul,ur,r,dr,l,ul"));
@@ -48,7 +51,10 @@ class hexCompiler{
 		utilHexes.put("canLoad", new Hex("Auditor's Reflection", "r,ul,l,dl,dr,r,ur,r"));
 		utilHexes.put("blockImLookingAt", new Hex(utilHexes.get("myPosEye"), utilHexes.get("me"), utilHexes.get("direction"), utilHexes.get("archer")));
 		hexes.put("meLevitate", new Hex(utilHexes.get("me"), utilHexes.get("getNumber10"), utilHexes.get("levitate")));
+		hexes.put("meWither", new Hex(utilHexes.get("me"), utilHexes.get("getNumber10"), utilHexes.get("getNumber1") , utilHexes.get("wither")));
+		hexes.put("unlockHurting", new Hex(utilHexes.get("me"), utilHexes.get("getNumber6"), utilHexes.get("levitate")));
 		hexes.put("startFlight", new Hex(utilHexes.get("me"), utilHexes.get("meFlight"), utilHexes.get("me"), utilHexes.get("direction") , utilHexes.get("getNumber10"), utilHexes.get("multiply"), utilHexes.get("push")));
+		hexes.put("breakBlock", new Hex(utilHexes.get("blockImLookingAt"), utilHexes.get("breakBlock")));
 		
 		
 		
@@ -74,7 +80,9 @@ class hexCompiler{
 				if(totalLength > hexCompiler.maxLength){
 					totalStops += 1;
 					totalLength = h.hexLength + 2;
-					fullSpell += "," + "dl,".repeat(3) + stopRecord.fullSpell + ",l".repeat(9) + ",dl," + (totalStops != 1 ? "dl," + combineLists.fullSpell + "," : "") + save.fullSpell + ",ps," + load.fullSpell + ",ur,ur," + startRecord.fullSpell;
+					fullSpell += "," + "cn," + "r,".repeat(5) + "dr,".repeat(3) + stopRecord.fullSpell
+					+ ",l".repeat(9) + ",dl," + (totalStops != 1 ? "dl," + combineLists.fullSpell + "," : "")
+					+ save.fullSpell + ",ps," + load.fullSpell + ",ur,ur," + startRecord.fullSpell;
 				}
 				fullSpell += "," + h.fullSpell;
 			}

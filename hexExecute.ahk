@@ -1,5 +1,11 @@
-dist := 106
-delayTime := 20
+; 1366 resolution
+dist := 75
+
+; 1920 resolution 
+; dist := 106
+
+; You can configure to your display by getting your horizontal resolution and dividing it by 18
+delayTime := 200
 sqrt3 := 1.7320
 
 NumpadAdd::
@@ -35,11 +41,14 @@ NumpadAdd::
 				{
 					left()
 				}
+			case "cn":
+				MouseMove, A_ScreenWidth/2, A_ScreenHeight/2
 
 			default:
 				MsgBox, % "Error on hex no " i " which is " hex
 		}
 	}
+	MsgBox, Spell Finished
 return
 
 Numpad6::
