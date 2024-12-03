@@ -94,12 +94,18 @@ class hexCompiler{
 	public static Hex generateNumberHex(int num){
 		String spell = "dr,ur,ul,dl,r";
 		String dir = "r"
-		while(num != 0){
-			if(num & 1){
+		int tester = Integer.MAX + 1;
+		boolean foundOne = false;
+		while(tester != 0){
+			if(num & tester == tester){
 				spell += dir + ",";
+				foundOne = true;
 			}
-			dir = getDirection(dir, -2);
-			spell += dir + ",";
+			if(foundOne){
+				dir = getDirection(dir, -2);
+				spell += dir + ",";
+				tester = num >> 1;
+			}
 		}
 
 		return new Hex("Number" + num, spell);
