@@ -7,6 +7,7 @@ class hexCompilerHigh {
         String func;
     }
 
+
     public static class HexMemory{
         private HashMap<String, HexFunc> functions = new HashMap<>();
 

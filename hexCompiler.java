@@ -9,6 +9,7 @@ class hexCompiler{
 	public static Hex combineLists = new Hex("Additive Distillation", "ur,ur,l,dr,dr");
 	public static Hex load = new Hex("Scribe's Reflection", "r,ul,l,dl,dr,r,ur");
 	public static Hex save = new Hex("Scribe's Gambit", "r,dl,l,ul,ur,r,dr");
+	public static String[] direction = new String[] {"ur", "r", "dr", "dl", "l", "ul"}
 	private static HashMap<String, Hex> utilHexes;
 
 	public static void main(String... Args){
@@ -39,6 +40,8 @@ class hexCompiler{
 		utilHexes.put("weakness", new Hex("White Sun's Nadir", "ul,l,dl,dr,r,ur,l,dl,dl,r,r,ul,ul"));
 		utilHexes.put("breakBlock", new Hex("Break Block", "r,ur,l,dl,dr,r,ur,ul"));
 		utilHexes.put("placeBlock", new Hex("Place Block", "dl,l,ul,ur,r,dr,l,ul"));
+		utilHexes.put("saveToMem", new Hex("Huginn's Gambit", "ul,ur,ul,l,l,dr,dr,r,ul,dl,dl"));
+		utilHexes.put("copyFromMem", new Hex("Muninn's Reflection", "ur,ul,ur,r,r,dl,dl,l,ur,dr,dr"));
 		utilHexes.put("placeWater", new Hex("Create Water", "dr,ur,ul,dl,dl,dr,ur,dr,ur,ul"));
 		utilHexes.put("removeWater", new Hex("Destroy Liquid", "dl,ul,ur,dr,dr,dl,ul,dl,ul,ur"));
 		utilHexes.put("duplicate", new Hex("Gemini Decomposition", "r,ul,dl,ul,dl,r"));
@@ -52,16 +55,70 @@ class hexCompiler{
 		utilHexes.put("canSave", new Hex("Assessor's Reflection", "r,dl,l,ul,ur,r,dr,r"));
 		utilHexes.put("canLoad", new Hex("Auditor's Reflection", "r,ul,l,dl,dr,r,ur,r"));
 		utilHexes.put("blockImLookingAt", new Hex(utilHexes.get("myPosEye"), utilHexes.get("me"), utilHexes.get("direction"), utilHexes.get("archer")));
-		hexes.put("meLevitate", new Hex(utilHexes.get("me"), utilHexes.get("getNumber10"), utilHexes.get("levitate")));
-		hexes.put("meWither", new Hex(utilHexes.get("me"), utilHexes.get("getNumber10"), utilHexes.get("getNumber1") , utilHexes.get("wither")));
-		hexes.put("unlockHurting", new Hex(utilHexes.get("me"), utilHexes.get("getNumber6"), utilHexes.get("levitate")));
-		hexes.put("startFlight", new Hex(utilHexes.get("me"), utilHexes.get("meFlight"), utilHexes.get("me"), utilHexes.get("direction") , utilHexes.get("getNumber10"), utilHexes.get("multiply"), utilHexes.get("push")));
-		hexes.put("breakBlock", new Hex(utilHexes.get("blockImLookingAt"), utilHexes.get("breakBlock")));
+		if(Args.length == 0){
+			hexes.put("meLevitate", new Hex(utilHexes.get("me"), utilHexes.get("getNumber10"), utilHexes.get("levitate")));
+			hexes.put("meWither", new Hex(utilHexes.get("me"), utilHexes.get("getNumber10"), utilHexes.get("getNumber1") , utilHexes.get("wither")));
+			hexes.put("unlockHurting", new Hex(utilHexes.get("me"), utilHexes.get("getNumber6"), utilHexes.get("levitate")));
+			hexes.put("startFlight", new Hex(utilHexes.get("me"), utilHexes.get("meFlight"), utilHexes.get("me"), utilHexes.get("direction") , utilHexes.get("getNumber10"), utilHexes.get("multiply"), utilHexes.get("push")));
+			hexes.put("breakBlock", new Hex(utilHexes.get("blockImLookingAt"), utilHexes.get("breakBlock")));
+			for(String h : hexes.keySet()){
+				System.out.println(h + " : " + hexes.get(h).fullSpell + "\n");
+			}
+		}
+		else{
+			String spellNew = Args[0].split(",");
+			Hex[] hexes = new Hex[] {};
+			for(String s : spellNew){
+				s = s.trim()
+				try{
+					try{
+						int i = Integer.parse(s);
+						hexes[hexes.length] = ;
+					}
+					catch(Exception e){
+						hexes[hexes.length] = utilHexes.get(s);
+					}
+
+				}
+				catch(Exception e){
+					System.out.println("Error on spell, you tried to use '" + s + "' as a spell")
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		
-		
-		for(String h : hexes.keySet()){
-			System.out.println(h + " : " + hexes.get(h).fullSpell + "\n");
+
+	}
+
+	public static Hex generateNumberHex(int num){
+		String spell = "dr,ur,ul,dl,r";
+		String dir = "r"
+		while(num != 0){
+			if(num & 1){
+				spell += dir + ",";
+			}
+			dir = getDirection(dir, -2);
+			spell += dir + ",";
+		}
+
+		return new Hex("Number" + num, spell);
+	}
+
+
+
+	public static String getDirection(String current, int dir){
+		for(int i = 0; i < direction.length; i++){
+			if(current == direction[i]){
+				i += dir;
+				if(i < 0){
+					i += direction.length;
+				}
+				if(i >= direction.length){
+					i -= direction.length;
+				}
+				return direction[i]
+			}
 		}
 	}
 	
