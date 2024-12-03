@@ -26,6 +26,8 @@ class hexCompiler{
 		utilHexes.put("meFlight", new Hex(utilHexes.get("me"), utilHexes.get("giveElytra")));
 		utilHexes.put("getStackSize", new Hex("Flock's Reflection", "ul,l,l,dr,dl,r,r,ur,l,ul,dl,dr,ur"));
 		utilHexes.put("addNElements", new Hex("Flock's Gambit", "dl,l,l,ur,ul,r,r,dr"));
+		utilHexes.put("getNthElement", new Hex("Selection Distillation", "ul,r,dr,dl,l,ur"));
+		utilHexes.put("pushEmptyList", new Hex("Vacant Reflection", "ur,ul,l,dr,dl,r,ul,ur"));
 		utilHexes.put("convertAllToList", new Hex(utilHexes.get("getStackSize"), utilHexes.get("addNElements")));
 		utilHexes.put("getListLength", new Hex("Length Purification", "ur,ur,ul,dl,dr,dr"));
 		utilHexes.put("getTopOfList", new Hex("Derivation Distillation", "ul,l,dr,dl,r,ur"));
