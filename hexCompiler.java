@@ -86,9 +86,74 @@ class hexCompiler{
 				}
 			}
 		}
-		
-		
+	}
 
+
+	public static Class Node{
+		private boolean[] ports = {false, false, false, false, false, false};
+
+        public void setPort(String port) {
+            switch (port) {
+                case "ur":
+                    ports[0] = true;
+                    break;
+                case "r":
+                    ports[1] = true;
+                   break;
+                case "dr":
+                    ports[2] = true;
+                    break;
+                case "dl":
+                    ports[3] = true;
+                    break;
+                case "l":
+                    ports[4] = true;
+                    break;
+                case "ul":
+                    ports[5] = true;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown direction");
+            }
+        }
+
+        public static String reverse(String input) {
+		    StringBuilder result = new StringBuilder();
+		    for (int i = 0; i < input.length(); i++) {
+		        char c = input.charAt(i);
+		        if (c == 'u') {
+		            result.append('d');
+		        } else if (c == 'd') {
+		            result.append('u');
+		        } else if (c == 'r') {
+		            result.append('l');
+		        } else if (c == 'l') {
+		            result.append('r');
+		        } else {
+		            result.append(c);
+		        }
+		    }
+		    return result.toString();
+		}
+
+        public boolean checkPort(String port) {
+            switch (port) {
+                case "ur":
+                    return ports[0];
+                case "r":
+                    return ports[1];
+                case "dr":
+                    return ports[2];
+                case "dl":
+                    return ports[3];
+                case "l":
+                    return ports[4];
+                case "ul":
+                    return ports[5];
+                default:
+                    throw new IllegalArgumentException("Unknown direction");
+            }
+        }
 	}
 
 	public static Hex generateNumberHex(int num){
