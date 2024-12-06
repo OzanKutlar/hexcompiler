@@ -18,7 +18,7 @@ class HexCompiler{
 		map.moveCursor("l");
 		map.moveCursor("dl");
 		map.click(false);
-
+		System.out.println(map.record.toString());
 		map.displayNodeMap();
 
 
@@ -70,7 +70,6 @@ class HexCompiler{
 			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2d = image.createGraphics();
 			
-			// Set anti-aliasing for smoother lines and shapes
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 			// Fill the background with white
@@ -78,23 +77,23 @@ class HexCompiler{
 			g2d.fillRect(0, 0, width, height);
 
 			// Calculate the starting point for centering the hexagonal grid within the image
-			int startX = 100;
+			int permStartX = 100;
 			int startY = 100;
 
 			// Define offsets for hexagonal grid layout
-			double xOffset = 106;
-			double yOffset = Math.sqrt(3) * xOffset;
+			int xOffset = 106;
+			int yOffset = xOffset;
 
 			// Draw all the nodes
 			for (int row = 0; row < nodeMatrix.length; row++) {
+				int startX = permStartX;
+				int y = (int) (startY + (row * yOffset));
+				if((row & 1) == 0){
+					startX += (xOffset>>1);
+				}
 				for (int col = 0; col < nodeMatrix[0].length; col++) {
-					int x = (int) (startX + col * xOffset);
-					int y = (int) (startY + row * yOffset);
+					int x = (int) (startX + (col * xOffset));
 
-					// Offset every second row (hexagonal grid behavior)
-					if (col % 2 == 1) {
-						y += (int) (yOffset / 2);
-					}
 
 					// Draw the node as a simple circle
 					g2d.setColor(Color.BLACK);
@@ -105,22 +104,22 @@ class HexCompiler{
 
 					// Check the ports and draw lines accordingly
 					if (node.checkPort("ur") && row > 0 && col < nodeMatrix[0].length - 1) {
-						drawLine(g2d, x, y, nodeSize, row - 1, col + 1, startX, startY, -106, -106);
+						drawLine(g2d, x, y, x + (xOffset>>1), y - yOffset);
 					}
 					if (node.checkPort("r") && col < nodeMatrix[0].length - 1) {
-						drawLine(g2d, x, y, nodeSize, row, col + 1, startX, startY, 106, 0);
+						drawLine(g2d, x, y, x + (xOffset), y);
 					}
 					if (node.checkPort("dr") && row < nodeMatrix.length - 1 && col < nodeMatrix[0].length - 1) {
-						drawLine(g2d, x, y, nodeSize, row + 1, col + 1, startX, startY, 106, 106);
+						drawLine(g2d, x, y, x + (xOffset>>1), y + yOffset);
 					}
 					if (node.checkPort("dl") && row < nodeMatrix.length - 1 && col > 0) {
-						drawLine(g2d, x, y, nodeSize, row + 1, col - 1, startX, startY, -106, 106);
+						drawLine(g2d, x, y, x - (xOffset>>1), y + yOffset);
 					}
 					if (node.checkPort("l") && col > 0) {
-						drawLine(g2d, x, y, nodeSize, row, col - 1, startX, startY, -106, 0);
+						drawLine(g2d, x, y, x - (xOffset), y);
 					}
 					if (node.checkPort("ul") && row > 0 && col > 0) {
-						drawLine(g2d, x, y, nodeSize, row - 1, col - 1, startX, startY, -106, -106);
+						drawLine(g2d, x, y, x - (xOffset>>1), y - yOffset);
 					}
 				}
 			}
@@ -132,22 +131,13 @@ class HexCompiler{
 		}
 
 		// Helper function to draw a line between two nodes
-		private static void drawLine(Graphics2D g2d, int x, int y, int nodeSize, int row, int col, int startX, int startY, int dx, int dy) {
-			// Offset for the node's position
-			double xOffset = 1.5 * nodeSize;
-			double yOffset = Math.sqrt(3) * nodeSize;
+		private static void drawLine(Graphics2D g2d, int x, int y, int endx, int endy) {
 
-			int targetX = (int) (startX + col * xOffset + dx);
-			int targetY = (int) (startY + row * yOffset + dy);
 
-			// Offset every second row (hexagonal grid behavior)
-			if (col % 2 == 1) {
-				targetY += (int) (yOffset / 2);
-			}
 
 			g2d.setColor(Color.BLUE);
 			g2d.setStroke(new BasicStroke(2));
-			g2d.drawLine(x, y, targetX, targetY);
+			g2d.drawLine(x, y, endx, endy);
 		}
 
 
@@ -176,7 +166,7 @@ class HexCompiler{
 			if (canMoveInDirection(direction)) {
 				record.append(direction);
 				if(clicking){
-					map[cursorX][cursorY].setPort(direction, true);
+					map[cursorY][cursorX].setPort(direction, true);
 				}
 				switch (direction) {
 					case "ur":
@@ -202,7 +192,7 @@ class HexCompiler{
 						throw new IllegalArgumentException("Invalid direction");
 				}
 				if(clicking){
-					map[cursorX][cursorY].setPort(Node.reverse(direction), true);
+				//	map[cursorY][cursorX].setPort(Node.reverse(direction), true);
 				}
 
 			} else {
