@@ -1,0 +1,40 @@
+giveElytra - Altiora : r,r,c1,ul,dl,dl,r,r,ul,l,ul,r,r,r,dl,dr,c0,ul,l,r,r
+saveToMem - Huginn's Gambit : r,r,r,c1,ul,ur,ul,l,l,dr,dr,r,ul,dl,dl,c0,r,r,r
+getTopOfList - Derivation Distillation : r,r,c1,ul,l,dr,dl,r,ur,c0,r
+blink - Blink : r,c1,dl,r,r,ur,ul,l,l,dr,r,c0,l,r,r,r
+convertAllToList - null : r,r,r,c1,ul,l,l,dr,dl,r,r,ur,l,ul,dl,dr,ur,c0,r,r,r,r,r,c1,dl,l,l,ur,ul,r,r,dr,c0,r
+rechargeItem - Recharge Item : r,r,r,c1,ul,l,dl,dr,r,ur,ur,l,ul,dl,l,dr,dl,r,dr,ur,r,ul,c0,r
+myPosEye - null : r,c1,ur,ul,dl,dr,c0,r,r,c1,r,ul,dl,c0,r,r
+placeBlock - Place Block : r,r,r,c1,dl,l,ul,ur,r,dr,l,ul,c0,dr,r,r
+addToList - Integration Distillation : r,r,c1,dl,l,ur,ul,r,dr,c0,r
+createArtifact - Craft Artifact : r,c1,r,r,r,ul,l,dl,dr,r,ur,r,ul,ul,l,l,dl,dl,dr,dr,r,r,ur,ur,ur,ul,l,ul,dl,ul,dl,l,dl,dr,dl,dr,r,dr,ur,dr,ur,r,ur,ul,c0,l,l,l,l,r,r,r,r,r
+weakness - White Sun's Nadir : r,r,r,c1,ul,l,dl,dr,r,ur,l,dl,dl,r,r,ul,ul,c0,r,r
+eyePos - Compass' Purification : r,c1,r,ul,dl,c0,r,r
+explode - Explosion : r,r,c1,r,ul,dl,dl,r,ul,ul,dl,r,c0,r,r
+getNthElement - Selection Distillation : r,c1,ul,r,dr,dl,l,ur,c0,r,r
+canLoad - Auditor's Reflection : r,r,c1,r,ul,l,dl,dr,r,ur,r,c0,l,l,r,r,r
+me - Mind's Reflection : r,c1,ur,ul,dl,dr,c0,r
+getNumber6 - Numerical Reflection 6 : r,c1,dr,ur,ul,dl,r,dr,l,l,c0,ur,r,r
+getStackSize - Flock's Reflection : r,r,r,c1,ul,l,l,dr,dl,r,r,ur,l,ul,dl,dr,ur,c0,r,r
+breakBlock - Break Block : r,c1,r,ur,l,dl,dr,r,ur,ul,c0,dl,l,r,r,r
+multiply - Multiplicative Dstl : r,c1,dr,dr,ur,ul,dl,dl,c0,ur,ul,r,r
+getNumber1 - Numerical Reflection 1 : r,c1,dr,ur,ul,dl,r,r,c0,l,l,r,r,r
+direction - Alidade's Purification : r,c1,ur,ur,l,c0,dr,dl,r,r
+getListLength - Length Purification : r,c1,ur,ur,ul,dl,dr,dr,c0,l,r,r
+meFlight - null : r,c1,ur,ul,dl,dr,c0,r,r,r,c1,ul,dl,dl,r,r,ul,l,ul,r,r,r,dl,dr,c0,ul,l,r,r
+levitate - Blue Sun's Nadir : r,r,c1,l,dl,dr,r,ur,ul,dl,dl,dl,r,r,ul,ul,r,c0,ul,r
+copyFromMem - Muninn's Reflection : r,c1,ur,ul,ur,r,r,dl,dl,l,ur,dr,dr,c0,l,l,r,r,r
+canSave - Assessor's Reflection : r,r,c1,r,dl,l,ul,ur,r,dr,r,c0,l,l,r,r,r
+duplicate - Gemini Decomposition : r,r,c1,r,ul,dl,ul,dl,r,c0,r,r
+execute - Hermes' Gambit : r,r,c1,dr,l,ul,dl,dr,r,c0,ur,ul,r
+addNElements - Flock's Gambit : r,r,r,c1,dl,l,l,ur,ul,r,r,dr,c0,r
+push - Impulse : r,c1,dl,r,r,ur,ul,l,l,dr,r,r,c0,l,l,r,r,r
+pushEmptyList - Vacant Reflection : r,r,c1,ur,ul,l,dr,dl,r,ul,ur,c0,dr,dl,r
+myPos - null : r,c1,ur,ul,dl,dr,c0,r,r,c1,ur,dr,l,c0,r,r
+removeWater - Destroy Liquid : r,r,c1,dl,ul,ur,dr,dr,dl,ul,dl,ul,ur,c0,r,r
+normalPos - Compass' Purification II : r,c1,ur,dr,l,c0,r,r
+getNumber10 - Numerical Reflection 10 : r,c1,dr,ur,ul,dl,r,dr,c0,ul,l,r,r
+blockImLookingAt - null : r,c1,ur,ul,dl,dr,c0,r,r,c1,r,ul,dl,c0,r,r,r,c1,ur,ul,dl,dr,c0,r,r,c1,ur,ur,l,c0,dr,dl,r,r,r,c1,r,r,ur,l,dr,dr,l,ur,c0,l,l,r,r,r
+archer - Archer's Distillation : r,c1,r,r,ur,l,dr,dr,l,ur,c0,l,l,r,r,r
+placeWater - Create Water : r,c1,dr,ur,ul,dl,dl,dr,ur,dr,ur,ul,c0,l,r,r
+wither - Black Sun's Nadir : r,c1,dl,dr,r,ur,ul,l,dr,dl,dl,r,r,ul,ul,ur,c0,l,r,r

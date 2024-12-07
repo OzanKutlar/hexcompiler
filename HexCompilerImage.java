@@ -2,16 +2,16 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
 import javax.imageio.ImageIO;
 
 class HexCompilerImage{
 
-	public static void main(String... args) {
-		NodeMap map = new NodeMap(10, 10);
-
+	public static void main(String... args) throws Exception {
+		NodeMap map = new NodeMap(18, 11);
+		HashMap<String, String> spells = readHashMapFromFile();
 		map.moveCursorToTopLeft();
-		map.moveCursor("dr");
+		map.moveCursor("dl");
 		map.click(true);
 		map.moveCursor("r");
 		map.moveCursor("ur");
@@ -22,6 +22,31 @@ class HexCompilerImage{
 		map.displayNodeMap();
 
 
+	}
+	
+	public static void saveHashMapToFile(HashMap<String, String> map) throws IOException {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("spells.txt"))) {
+			for (String key : map.keySet()) {
+				String value = map.get(key);
+				writer.write(key + " : " + value);
+				writer.newLine();
+			}
+		}
+	}
+
+	// Function to read HashMap from a file
+	public static HashMap<String, String> readHashMapFromFile() throws IOException {
+		HashMap<String, String> map = new HashMap<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader("spells.txt"))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] parts = line.split(" : ", 2); // Split only on the first occurrence of " : "
+				if (parts.length == 2) {
+					map.put(parts[0].split(" - ")[0], parts[1]);
+				}
+			}
+		}
+		return map;
 	}
 
 
@@ -50,8 +75,8 @@ class HexCompilerImage{
 				}
 			}
 
-			cursorX = width / 2;
-			cursorY = height / 2;
+			cursorX = width>>1;
+			cursorY = height>>1;
 		}
 
 		public void displayNodeMap(){
@@ -77,11 +102,11 @@ class HexCompilerImage{
 			g2d.fillRect(0, 0, width, height);
 
 			// Calculate the starting point for centering the hexagonal grid within the image
-			int permStartX = 100;
-			int startY = 100;
+			int permStartX = 40;
+			int startY = 40;
 
 			// Define offsets for hexagonal grid layout
-			int xOffset = 106;
+			int xOffset = 53;
 			int yOffset = xOffset;
 
 			// Draw all the nodes
@@ -132,9 +157,6 @@ class HexCompilerImage{
 
 		// Helper function to draw a line between two nodes
 		private static void drawLine(Graphics2D g2d, int x, int y, int endx, int endy) {
-
-
-
 			g2d.setColor(Color.BLUE);
 			g2d.setStroke(new BasicStroke(2));
 			g2d.drawLine(x, y, endx, endy);
@@ -169,17 +191,17 @@ class HexCompilerImage{
 				if(clicking){
 					map[cursorY][cursorX].setPort(direction, true);
 				}
-				switch(direction.charAt(0){
-					case "u":
+				switch(direction.charAt(0)){
+					case 'u':
 						cursorY--;
-						break
-					case "d":
+						break;
+					case 'd':
 						cursorY++;
 						break;
-					case "r":
+					case 'r':
 						cursorX++;
 						break;
-					case "l":
+					case 'l':
 						cursorX--;
 						break;
 					default:
@@ -188,14 +210,14 @@ class HexCompilerImage{
 				if(direction.length() == 2){
 					// A bit of reverse feeling logic here. On an hexagonal grid the X axis doesnt change we go left from an odd row or if we go right from an even one. The logic stays the same even though we use 0 based arrays bc we increment the cursorY in the previous one.
 					switch(direction.charAt(1)){
-						case "l":
+						case 'l':
 							if((cursorY & 1) == 0){
 								cursorX--;
 							}
 							break;
-						case "r":
+						case 'r':
 							if((cursorY & 1) == 1){
-								cursorX--;
+								cursorX++;
 							}
 							break;
 						default:
@@ -203,7 +225,7 @@ class HexCompilerImage{
 					}
 				}
 				if(clicking){
-				//	map[cursorY][cursorX].setPort(Node.reverse(direction), true);
+					map[cursorY][cursorX].setPort(Node.reverse(direction), true);
 				}
 				System.out.printf("%d : %d\n", cursorX, cursorY);
 
@@ -216,27 +238,38 @@ class HexCompilerImage{
 			int newX = cursorX;
 			int newY = cursorY;
 
-			switch (direction) {
-				case "ur":
-					newY--; newX++;
+			switch(direction.charAt(0)){
+				case 'u':
+					newY--;
 					break;
-				case "r":
+				case 'd':
+					newY++;
+					break;
+				case 'r':
 					newX++;
 					break;
-				case "dr":
-					newY++; newX++;
-					break;
-				case "dl":
-					newY++; newX--;
-					break;
-				case "l":
+				case 'l':
 					newX--;
-					break;
-				case "ul":
-					newY--; newX--;
 					break;
 				default:
 					throw new IllegalArgumentException("Invalid direction");
+			}
+			if(direction.length() == 2){
+				// A bit of reverse feeling logic here. On an hexagonal grid the X axis doesnt change we go left from an odd row or if we go right from an even one. The logic stays the same even though we use 0 based arrays bc we increment the cursorY in the previous one.
+				switch(direction.charAt(1)){
+					case 'l':
+						if((newY & 1) == 0){
+							newX--;
+						}
+						break;
+					case 'r':
+						if((newY & 1) == 1){
+							newX++;
+						}
+						break;
+					default:
+						throw new IllegalArgumentException("Invalid direction");
+				}
 			}
 
 			return newX >= 0 && newX < width && newY >= 0 && newY < height;
