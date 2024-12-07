@@ -11,13 +11,6 @@ class HexCompilerImage{
 		NodeMap map = new NodeMap(18, 11);
 		HashMap<String, String> spells = readHashMapFromFile();
 		map.moveCursorToTopLeft();
-		map.moveCursor("dl");
-		map.click(true);
-		map.moveCursor("r");
-		map.moveCursor("ur");
-		map.moveCursor("l");
-		map.moveCursor("dl");
-		map.click(false);
 		System.out.println(map.getFullSpell());
 		map.displayNodeMap();
 
