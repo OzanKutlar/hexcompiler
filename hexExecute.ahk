@@ -1,19 +1,23 @@
 ; 1366 resolution
-dist := 75
+; dist := 75
 
 ; 1920 resolution 
-; dist := 106
+dist := 106
+; dist := 80
 
 ; You can configure to your display by getting your horizontal resolution and dividing it by 18
-delayTime := 200
+delayTime := 50
 sqrt3 := 1.7320
+centerX := 0
+centerY := 0
 
 NumpadAdd::
+	MouseGetPos, centerX, centerY
 	Clipwait, 1
-	Loop, 9
-	{
-		left()
-	}
+	; Loop, 9
+	; {
+		; left()
+	; }
 	for i, hex in StrSplit(Trim(Clipboard), ",")
 	{
 		; MsgBox, % i " : " hex
@@ -37,12 +41,8 @@ NumpadAdd::
 				Click, down
 			case "ps":
 				KeyWait, NumpadAdd, D
-				Loop, 9
-				{
-					left()
-				}
 			case "cn":
-				MouseMove, A_ScreenWidth/2, A_ScreenHeight/2
+				MouseMove, centerX, centerY, 1
 
 			default:
 				MsgBox, % "Error on hex no " i " which is " hex

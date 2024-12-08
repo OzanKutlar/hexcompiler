@@ -22,13 +22,6 @@ class HexCompilerImage{
 
 
 	}
-
-
-
-
-
-
-
-
+	
 
 }
