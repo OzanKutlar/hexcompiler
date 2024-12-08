@@ -245,24 +245,9 @@ class hexCompiler{
 			for(int i = 1; i < spells.length; i++){
 				Hex h = spells[i];
 				totalLength += h.hexLength + 2;
-				// if(totalLength > hexCompiler.maxLength){
-					// totalStops += 1;
-					// totalLength = h.hexLength + 2;
-					// fullSpell += "," + "cn," + "r,".repeat(5) + "dr,".repeat(3) + stopRecord.fullSpell
-					// + ",l".repeat(9) + ",dl," + (totalStops != 1 ? "dl," + combineLists.fullSpell + "," : "")
-					// + save.fullSpell + ",ps," + load.fullSpell + ",ur,ur," + startRecord.fullSpell;
-				// }
 				fullSpell += "," + h.fullSpell;
 			}
-			// if(totalStops != 0){
-				// fullSpell = startRecord.fullSpell + "," + fullSpell + "," + "dl,".repeat(3) + stopRecord.fullSpell + ",l".repeat(9) + ",dl,dl," + combineLists.fullSpell + "," + save.fullSpell;
-			// }
 		}
-		
-		// public Hex(Hex spellOne, Hex spellTwo){
-			// hexLength = spellOne.hexLength + spellTwo.hexLength + 1;
-			// fullSpell = spellOne.fullSpell + "," + spellTwo.fullSpell;
-		// }
 		
 		public Hex(String spellName, String spell){
 			this.spellName = spellName;
@@ -271,7 +256,7 @@ class hexCompiler{
 			String returnMoves = calculateReturnToStart(offSetFromStart);
 			// returnMoves += ",r".repeat(((hexBoundingBox[1] + 1) / 2) + 1);
 			returnMoves += ",r".repeat(((hexBoundingBox[1]) / 2) + 1);
-			fullSpell = startOffset + "c1," + spell + ",c0" + returnMoves;
+			fullSpell = spell;
 		}
 		
 		
