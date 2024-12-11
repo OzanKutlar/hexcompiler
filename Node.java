@@ -7,6 +7,9 @@ import javax.imageio.ImageIO;
 
 public class Node{
 	private boolean[] ports = {false, false, false, false, false, false};
+	
+	public int isUsedBy = -1;
+	
 
 	public void setPort(String port, boolean value) {
 		switch (port) {

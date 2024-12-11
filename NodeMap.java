@@ -14,6 +14,7 @@ public class NodeMap {
     private ArrayList<String> record;
     private boolean clicking;
     HashMap<String, Hex> spells;
+	private int internalSpellCounter = 0;
 
     private static final String[] DIRECTIONS = {"ur", "r", "dr", "dl", "l", "ul"};
 
@@ -136,11 +137,28 @@ public class NodeMap {
     public void addSpell(String spellName){
         int TEMP_cursorX = this.cursorX;
         int TEMP_cursorY = this.cursorY;
-        int REAL_cursorX = this.cursorX;
+		for(int i = 0; map[TEMP_cursorY][TEMP_cursorX].hasActivePort(); i++){
+			TEMP_cursorX++;
+			if(TEMP_cursorX >= width){
+				TEMP_cursorX = 0;
+				TEMP_cursorY++;
+			}
+			if(TEMP_cursorY >= height || i == 100){
+				System.out.println("Spell cant be placed...");
+				return;
+			}
+		}
+		if(TEMP_cursorX != this.cursorX || TEMP_cursorY != this.cursorY){
+			moveCursorTo(TEMP_cursorX, TEMP_cursorY);
+		}
+		int REAL_cursorX = this.cursorX;
         int REAL_cursorY = this.cursorY;
+		TEMP_cursorX = this.cursorX;
+        TEMP_cursorY = this.cursorY;
         Hex spell = spells.get(spellName);
         this.clicking = false;
         boolean solved = false;
+		System.out.println("Simulating spell : " + spellName);
         while(!solved){
             solved = true;
             this.cursorX = TEMP_cursorX;
@@ -155,8 +173,8 @@ public class NodeMap {
                 }
                 solved = false;
                 if(ErrorCode.contains(flag, ErrorCode.X_OVER)){
-                    System.out.println("Spell cant be placed");
-                    return;
+                    TEMP_cursorY++;
+					TEMP_cursorX--;
                 }
                 if(ErrorCode.contains(flag, ErrorCode.X_UNDER)){
                     TEMP_cursorX++;
@@ -164,12 +182,16 @@ public class NodeMap {
                 if(ErrorCode.contains(flag, ErrorCode.Y_UNDER)){
                     TEMP_cursorY++;
                 }
+				if(ErrorCode.contains(flag, ErrorCode.Y_OVER)){
+                    TEMP_cursorY--;
+                }
                 break;
             }
         }
 		this.cursorX = REAL_cursorX;
 		this.cursorY = REAL_cursorY;
         moveCursorTo(TEMP_cursorX, TEMP_cursorY);
+		System.out.println("Activating spell : " + spellName);
         for(String s : spell.fullSpell.split(",")){
             if(s.charAt(0) == 'c'){
                 this.click(s.charAt(1) == '1');
@@ -178,6 +200,8 @@ public class NodeMap {
                 this.moveCursor(s);
             }
         }
+		moveCursor("r");
+		internalSpellCounter++;
     }
 
     public static HashMap<String, Hex> readHashMapFromFile() throws IOException {
@@ -238,8 +262,8 @@ public class NodeMap {
 
     public short simulateCursor(String direction) {
         short errorCode = canMoveInDirection(direction);
-        if (errorCode == 0) {
-            System.out.printf("Simulating cursor from %d : %d to ", cursorX, cursorY);
+        if (errorCode == 0 || !this.clicking) {
+            // System.out.printf("Simulating cursor from %d : %d to ", cursorX, cursorY);
             switch(direction.charAt(0)){
                 case 'u':
                     cursorY--;
@@ -273,7 +297,6 @@ public class NodeMap {
                         throw new IllegalArgumentException("Invalid direction");
                 }
             }
-            System.out.printf("%d : %d\n", cursorX, cursorY);
         } else {
             System.out.println("Move out of bounds");
         }
@@ -281,13 +304,14 @@ public class NodeMap {
     }
 
 
-    public void moveCursor(String direction) {
+    public short moveCursor(String direction) {
         short errorCode = canMoveInDirection(direction);
-        if (errorCode == 0) {
+        if (errorCode == 0 || !this.clicking) {
             record.add(direction);
-            System.out.printf("Moving cursor from %d : %d to ", cursorX, cursorY);
+            // System.out.printf("Moving cursor from %d : %d to ", cursorX, cursorY);
             if(clicking){
                 map[cursorY][cursorX].setPort(direction, true);
+				map[cursorY][cursorX].isUsedBy = internalSpellCounter;
             }
             switch(direction.charAt(0)){
                 case 'u':
@@ -324,19 +348,19 @@ public class NodeMap {
             }
             if(clicking){
                 map[cursorY][cursorX].setPort(Node.reverse(direction), true);
+				map[cursorY][cursorX].isUsedBy = internalSpellCounter;
             }
-            System.out.printf("%d : %d\n", cursorX, cursorY);
 
         } else {
             System.out.println("Move out of bounds");
-            return;
         }
+		return errorCode;
     }
 
     private short canMoveInDirection(String direction) {
         int newX = cursorX;
         int newY = cursorY;
-        System.out.println("Checking direction : " + direction);
+        // System.out.println("Width and Height : " + width + " : " + height);
 
         switch(direction.charAt(0)){
             case 'u':
@@ -355,7 +379,6 @@ public class NodeMap {
                 throw new IllegalArgumentException("Invalid direction");
         }
         if(direction.length() == 2){
-            // A bit of reverse feeling logic here. On an hexagonal grid the X axis doesnt change we go left from an odd row or if we go right from an even one. The logic stays the same even though we use 0 based arrays bc we increment the cursorY in the previous one.
             switch(direction.charAt(1)){
                 case 'l':
                     if((newY & 1) == 0){
@@ -375,29 +398,33 @@ public class NodeMap {
         if(newX < 0){
             errorCode = ErrorCode.combine(errorCode, ErrorCode.X_UNDER);
         }
-        if(newX >= HexCompilerImage.mapWidth){
+        if(newX >= this.width){
             errorCode = ErrorCode.combine(errorCode, ErrorCode.X_OVER);
         }
         if(newY < 0){
             errorCode = ErrorCode.combine(errorCode, ErrorCode.Y_UNDER);
         }
-        if(newY > HexCompilerImage.mapHeight){
+        if(newY >= this.height){
             errorCode = ErrorCode.combine(errorCode, ErrorCode.Y_OVER);
         }
-		if(errorCode == 0 && map[newY][newX].checkPort(Node.reverse(direction))){
-			newX -= cursorX;
-			newY -= cursorY;
-			if(newX < 0){
-				errorCode = ErrorCode.combine(errorCode, ErrorCode.X_UNDER);
-			}
-			if(newX > 0){
-				errorCode = ErrorCode.combine(errorCode, ErrorCode.X_OVER);
-			}
-			if(newY < 0){
-				errorCode = ErrorCode.combine(errorCode, ErrorCode.Y_UNDER);
-			}
-			if(newY > 0){
-				errorCode = ErrorCode.combine(errorCode, ErrorCode.Y_OVER);
+		if(errorCode == 0){
+			boolean canBeUsed = (map[newY][newX].isUsedBy == internalSpellCounter || map[newY][newX].isUsedBy == -1);
+			boolean isDestPortFull = map[newY][newX].checkPort(Node.reverse(direction));
+			if(!canBeUsed || isDestPortFull){
+				newX -= cursorX;
+				newY -= cursorY;
+				if(newX < 0){
+					errorCode = ErrorCode.combine(errorCode, ErrorCode.X_UNDER);
+				}
+				if(newX > 0){
+					errorCode = ErrorCode.combine(errorCode, ErrorCode.X_OVER);
+				}
+				if(newY < 0){
+					errorCode = ErrorCode.combine(errorCode, ErrorCode.Y_UNDER);
+				}
+				if(newY > 0){
+					errorCode = ErrorCode.combine(errorCode, ErrorCode.Y_OVER);
+				}
 			}
 		}
 

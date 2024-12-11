@@ -18,11 +18,12 @@ public class Hex{
     public Hex(String spellName, String spell){
         this.spellName = spellName;
         int[] offSetFromStart = calculateBoundingBox(spell);
-        String startOffset = "r,".repeat(1 - (hexBoundingBox[0] / 2));
+        // String startOffset = "r,".repeat(1 - (hexBoundingBox[0] / 2));
+        // String startOffset = "r,";
         String returnMoves = calculateReturnToStart(offSetFromStart);
         // returnMoves += ",r".repeat(((hexBoundingBox[1] + 1) / 2) + 1);
-        returnMoves += ",r".repeat(((hexBoundingBox[1]) / 2) + 1);
-        fullSpell = startOffset + "c1," + spell + ",c0" + returnMoves;
+        // returnMoves += ",r".repeat(((hexBoundingBox[1]) / 2) - 1);
+        fullSpell = "c1," + spell + ",c0";
     }
 
 

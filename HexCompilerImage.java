@@ -16,7 +16,12 @@ class HexCompilerImage{
 		// map.click(true);
 		map.moveCursorToTopLeft();
 		// map.click(false);
-		map.addSpell("createArtifact");
+		map.addSpell("me");
+		map.addSpell("eyePos");
+		map.addSpell("archer");
+		map.addSpell("getNumber10");
+		map.addSpell("explode");
+		// map.addSpell("createArtifact");
 		System.out.println(map.getFullSpell());
 		map.displayNodeMap();
 

@@ -20,9 +20,9 @@ class hexCompilerHigh {
         }
 
         public void addVar(String varName){
-            int newPos = s.pop();
-            if(s.isEmpty()){
-                s.push(newPos + 1);
+            int newPos = stack.pop();
+            if(stack.isEmpty()){
+                stack.push(newPos + 1);
             }
             variables.put(varName, newPos);
         }
@@ -34,9 +34,9 @@ class hexCompilerHigh {
 
 
         public void addFunc(String function, String name){
-            int newPos = s.pop();
-            if(s.isEmpty()){
-                s.push(newPos + 1);
+            int newPos = stack.pop();
+            if(stack.isEmpty()){
+                stack.push(newPos + 1);
             }
             HexFunc func = new HexFunc();
             func.pos = newPos;
