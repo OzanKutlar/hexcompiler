@@ -134,6 +134,42 @@ public class NodeMap {
         }
     }
 
+    public int[] findLocation(String spellName){
+        // A bit of a bruteforce approach. But meh...
+        int[] oldCursor = {this.cursorX, this.cursorY};
+        int[] target = {0, 0};
+        boolean solved = false;
+        while(!solved){
+            solved = true;
+            this.cursorX = target[0];
+            this.cursorY = target[1];
+            for(String s : spell.fullSpell.split(",")){
+                if(s.charAt(0) == 'c'){
+                    continue;
+                }
+                short flag = this.simulateCursor(s);
+                if(flag == 0){
+                    continue;
+                }
+                solved = false;
+                target[0]++;
+                if(target[0] >= width){
+                    target[0] = 0;
+                    target[1]++;
+                    if(target[1] == height){
+                        this.cursorX = oldCursor[0];
+                        this.cursorY = oldCursor[1];
+                        return {-1, -1};
+                    }
+                }
+            }
+        }
+        this.cursorX = oldCursor[0];
+        this.cursorY = oldCursor[1];
+        return target;
+
+    }
+
     public void addSpell(String spellName){
         int TEMP_cursorX = this.cursorX;
         int TEMP_cursorY = this.cursorY;
@@ -202,6 +238,17 @@ public class NodeMap {
         }
 		moveCursor("r");
 		internalSpellCounter++;
+    }
+
+    public void execute_manually(String spell){
+        for(String s : spell.split(",")){
+            if(s.charAt(0) == 'c'){
+                this.click(s.charAt(1) == '1');
+            }
+            else{
+                this.moveCursor(s);
+            }
+        }
     }
 
     public static HashMap<String, Hex> readHashMapFromFile() throws IOException {

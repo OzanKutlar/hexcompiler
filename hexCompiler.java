@@ -2,7 +2,7 @@ import java.util.*;
 
 class hexCompiler{
 	
-	public static int maxLength = 16;
+	public static int maxLength = 14;
 	
 	public static Hex startRecord = new Hex("Introspection", "l,dl,dr,r");
 	public static Hex stopRecord = new Hex("Retrospection", "r,dr,dl,l");
@@ -62,7 +62,7 @@ class hexCompiler{
 		hexes.put("startFlight", new Hex(utilHexes.get("me"), utilHexes.get("meFlight"), utilHexes.get("me"), utilHexes.get("direction") , utilHexes.get("getNumber10"), utilHexes.get("multiply"), utilHexes.get("push")));
 		hexes.put("breakBlock", new Hex(utilHexes.get("blockImLookingAt"), utilHexes.get("breakBlock")));
 		
-		
+
 		
 		for(String h : hexes.keySet()){
 			System.out.println(h + " : " + hexes.get(h).fullSpell + "\n");

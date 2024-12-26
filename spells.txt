@@ -38,3 +38,8 @@ blockImLookingAt - null : ur,ul,dl,dr,r,ul,dl,ur,ul,dl,dr,ur,ur,l,r,r,ur,l,dr,dr
 archer - Archer's Distillation : r,r,ur,l,dr,dr,l,ur
 placeWater - Create Water : dr,ur,ul,dl,dl,dr,ur,dr,ur,ul
 wither - Black Sun's Nadir : dl,dr,r,ur,ul,l,dr,dl,dl,r,r,ul,ul,ur
+startRecord - Introspection : l,dl,dr,r
+stopRecord - Retrospection : r,dr,dl,l
+combineLists - Additive Distillation : ur,ur,l,dr,dr
+load - Scribe's Reflection : r,ul,l,dl,dr,r,ur
+save - Scribe's Gambit : r,dl,l,ul,ur,r,dr
